@@ -30,7 +30,7 @@ function MenuINPE({onClick, activeUrl}) {
     <ul className="w-full block">
       {menuData?.map((item, index) => (
         <li key={index}>
-          <button className={`rounded-full w-full mb-3 py-2 text-white  ${isActive(item.url)}`} onClick={handleOnClick} data-url={item.url}>
+          <button className={`rounded-md w-full mb-3 py-2 text-white  ${isActive(item.url)}`} onClick={handleOnClick} data-url={item.url}>
             {item.label}
           </button>
         </li>
