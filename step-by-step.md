@@ -924,59 +924,421 @@
 
     export default MapPage;
     ```
-4. Alterar App.jsx para:
-    ```jsx
 
+38. Alterar App.jsx para:
+
+    ```jsx
     import "./App.css";
-    import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+    import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
     import MapPage from "./pages/MapPage";
 
-
     function App() {
-
       return (
         <Router>
           <Routes>
-            <Route exact path="/" element={<MapPage/>} />
+            <Route exact path="/" element={<MapPage />} />
           </Routes>
         </Router>
       );
     }
 
     export default App;
-
     ```
 
-  5. A aplicação deve voltar a funcionar.
-  5. Na pasta pages, vamos criar um componente chamado AboutPage.jsx
-      ```jsx
+39. A aplicação deve voltar a funcionar.
+40. Na pasta pages, vamos criar um componente chamado AboutPage.jsx
 
-        function AboutPage() {
-          return <h1>About Page</h1>;
+    ```jsx
+    function AboutPage() {
+      return <h1>About Page</h1>;
+    }
+
+    export default AboutPage;
+    ```
+
+41. Atualizar as rotas no App.jsx:
+
+    ```jsx
+    import "./App.css";
+    import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+    import MapPage from "./pages/MapPage";
+    import AboutPage from "./pages/AboutPage";
+
+    function App() {
+      return (
+        <Router>
+          <Routes>
+            <Route exact path="/" element={<MapPage />} />
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
+        </Router>
+      );
+    }
+
+    export default App;
+    ```
+
+42. Fazer modificações no Wireframe para inclsuão do menu:
+
+    ```jsx
+    function Wireframe({ children }) {
+      return (
+        <div className="flex bg-gray-100 overflow-hidden wireframe">
+          <div className="bg-sky-700 w-64 flex flex-col p-5 pb-0 drop-shadow-2xl">
+            <div className="mb-5 pb-5 border-b border-sky-800 flex flex-col content-center">
+              <img src="WFDB-logo.png" alt="Logo" className="w-4/5" />
+              <span className="text-sm mt-3 text-white">
+                Alerta de incêdio nas últimas 48hs.
+              </span>
+            </div>
+            <div className="flex flex-1 overflow-y-auto pr-6 w-full">
+              {children[0]}
+            </div>
+            <div className="grid grid-cols-2 p-6 border-t border-sky-800 gap-x-2">
+              {children[2]}
+            </div>
+          </div>
+          <div className="bg-gray-100 text-left min-h-screen flex-1 relative flex items-center justify-center">
+            {children[1]}
+          </div>
+        </div>
+      );
+    }
+
+    export default Wireframe;
+    ```
+
+43. Incluir a base do menu no App.jsx (O componente LINK deve estar dentro do componente Router)
+
+    ```jsx
+    import "./App.css";
+    import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+    import MapPage from "./pages/MapPage";
+    import AboutPage from "./pages/AboutPage";
+    import { Link } from "react-router-dom";
+
+    function App() {
+      return (
+        <Router>
+          <div className="h-screen app">
+            <div className="bg-sky-900 flex items-center px-4">
+              <div className="flex-1">logo</div>
+              <ul className="flex gap-2">
+                <li className="p-2 bg-sky-700 rounded text-white hover:bg-amber-600">
+                  <Link to="/">Alertas de 48hs</Link>
+                </li>
+                <li className="p-2 bg-sky-700 rounded text-white hover:bg-amber-600">
+                  <Link to="/about">Sobre a Ferramenta</Link>
+                </li>
+              </ul>
+            </div>
+            <main>
+              <Routes>
+                <Route exact path="/" element={<MapPage />} />
+                <Route path="/about" element={<AboutPage />} />
+              </Routes>
+            </main>
+          </div>
+        </Router>
+      );
+    }
+
+    export default App;
+    ```
+44. Mudando o Logo de lugar -> Vamos retirar o Logo de dentro do Wireframe
+
+      ```jsx
+      function Wireframe({ children }) {
+        return (
+          <div className="flex bg-gray-100 overflow-hidden wireframe">
+            <div className="bg-sky-700 w-64 flex flex-col p-5 pb-0 drop-shadow-2xl">
+              <div className="mb-5 pb-5 border-b border-sky-800 flex flex-col content-center">
+                <span className="text-sm text-white">Alerta de incêdio nas últimas 48hs.</span>
+              </div>
+              <div className="flex flex-1 overflow-y-auto pr-6 w-full">{children[0]}</div>
+              <div className="grid grid-cols-2 p-6 border-t border-sky-800 gap-x-2">
+                  {children[2]}
+              </div>
+            </div>
+            <div className="bg-gray-100 text-left min-h-screen flex-1 relative flex items-center justify-center">
+              {children[1]}
+            </div>
+          </div>
+        );
+      }
+
+      export default Wireframe;
+      ```
+45. Vamos colocar o logo dentro de App.jsx alterando o tamanho dele (class w-32):
+      ```jsx
+      import "./App.css";
+      import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+      import MapPage from "./pages/MapPage";
+      import AboutPage from "./pages/AboutPage";
+      import { Link } from "react-router-dom";
+
+      function App() {
+        return (
+          <Router>
+            <div className="h-screen app">
+              <div className="bg-sky-900 flex items-center px-4">
+                <div className="flex-1">
+                <img src="WFDB-logo.png" alt="Logo" className="w-32" />
+                </div>
+                <ul className="flex gap-2">
+                  <li className="p-2 bg-sky-700 rounded text-white hover:bg-amber-600">
+                    <Link to="/">Alertas de 48hs</Link>
+                  </li>
+                  <li className="p-2 bg-sky-700 rounded text-white hover:bg-amber-600">
+                    <Link to="/about">Sobre a Ferramenta</Link>
+                  </li>
+                </ul>
+              </div>
+              <main>
+                <Routes>
+                  <Route exact path="/" element={<MapPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                </Routes>
+              </main>
+            </div>
+          </Router>
+        );
+      }
+
+      export default App;
+
+      ```
+  4. Atualizar o app.css
+
+      ```css
+        .app{
+            display: grid;
+            grid-template-rows: 10vh 90vh;
+            overflow: hidden;
         }
 
-        export default AboutPage;
-
-        ```
-  5. Atualizar as rotas no App.jsx:
-      ```jsx
-          import "./App.css";
-          import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-          import MapPage from "./pages/MapPage";
-          import AboutPage from "./pages/AboutPage";
-
-
-          function App() {
-
-            return (
-              <Router>
-                <Routes>
-                  <Route exact path="/" element={<MapPage/>} />
-                  <Route path="/about" element={<AboutPage/>} />
-                </Routes>
-              </Router>
-            );
-          }
-
-          export default App;
+        .wireframe{
+            height: 90vh;
+        }
       ```
+  46. Criando um componente de navegação (components/Navigation.jsx):
+      ```jsx
+      import { Link, useLocation } from "react-router-dom";
+      function Navigation() {
+        let location = useLocation().pathname;
+        const menuItens = [
+          { to: "/", label: "Alerta de 48hs" },
+          { to: "/about", label: "Sobre a Ferramenta" },
+        ];
+
+        return (
+          <div className="bg-sky-900 flex items-center px-4">
+            <div className="flex-1">
+              <img src="WFDB-logo.png" alt="Logo" className="w-32" />
+            </div>
+            <ul className="flex gap-2">
+              {menuItens.map(({ to, label }, index) => (
+                <li
+                  key={index}
+                  className={`p-2 bg-sky-700 rounded text-white hover:bg-amber-600 ${
+                    location === to ? "bg-amber-600" : ""
+                  }`}
+                >
+                  <Link to={to}>{label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      export default Navigation;
+      ```
+  4. Atualizando o App.jsx
+      ```jsx
+      import "./App.css";
+      import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+      import MapPage from "./pages/MapPage";
+      import AboutPage from "./pages/AboutPage";
+      import Navigation from "./components/Navigation";
+
+
+      function App() {
+        return (
+          <Router>
+            <div className="h-screen app">
+              <Navigation />
+              <main>
+                <Routes>
+                  <Route exact path="/" element={<MapPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                </Routes>
+              </main>
+            </div>
+          </Router>
+        );
+      }
+
+      export default App;
+      ```
+3. Atualizando a página About.jsx
+    ```jsx
+        function AboutPage() {
+          return (
+            <div className="p-6">
+              <h1 className="text-3xl mb-4">Sobre a Ferramenta</h1>
+              <p>
+                Bem-vindo(a) à nossa ferramenta de monitoramento de focos de incêndio!
+                Aqui, fornecemos informações em tempo real sobre os focos de incêndio
+                ocorridos nas últimas 48 horas, utilizando dados fornecidos pelo INPE
+                (Instituto Nacional de Pesquisas Espaciais).
+              </p>
+
+              <p>
+                Nossa ferramenta foi desenvolvida para auxiliar no acompanhamento e na
+                análise dos incêndios, oferecendo uma visão abrangente das áreas
+                afetadas. Com base nos dados confiáveis e atualizados do INPE, exibimos
+                no mapa a localização precisa dos focos de incêndio, permitindo uma
+                compreensão clara da extensão e gravidade dos eventos.
+              </p>
+            </div>
+          );
+        }
+        export default AboutPage;
+    ```
+4. Passagem de parâmetros - Criar página CountryPage.jsx
+
+    ```jsx
+    import { useParams } from "react-router-dom";
+
+      function CountryPage(props) {
+          let { country } = useParams(); 
+        return (
+          <div className="p-6">
+            <h1 className="text-3xl mb-4">{country}</h1>
+            <p>Você clicou em {country}.</p>
+          </div>
+        );
+      }
+
+      export default CountryPage;
+
+    ```
+5. Atualizar Notification:
+
+    ```jsx
+      import moment from 'moment';
+      import { Link } from "react-router-dom";
+      import 'moment/locale/pt-br';
+      moment.locale('pt-br');
+
+      function Notification({ geoJson, additionalInfo }) {
+        const totalWildefireReported = geoJson?.features.length;
+        const Dialog = () => {
+          const message =
+            totalWildefireReported === 0
+              ? "Não foram reportados focos de incêndio nas últimas 48 horas"
+              : `Foram encontrados ${totalWildefireReported} focos de incêndio nas últimas 48 horas.`;
+          if (!geoJson) return null;
+          return (
+            <div
+              className={`p-5 text-white rounded drop-shadow-2xl absolute z-50 w-auto top-5 right-5 ${
+                totalWildefireReported === 0 ? "bg-green-700" : "bg-red-700"
+              }`}
+            >
+              {message}
+            </div>
+          );
+        };
+        const AdditionalInfoTable = () => {
+          if (!additionalInfo) return null;
+          const {
+            data_hora_gmt,
+            estado,
+            municipio,
+            pais,
+            satelite,
+            latitude,
+            longitude,
+          } = additionalInfo;
+          return (
+            <div
+              className={`p-4 rounded drop-shadow-2xl absolute z-50 bottom-20 right-5 bg-white w-1/3`}
+            >
+              <table className="w-full">
+                <tr>
+                  <th className="w-1/2">País</th>
+                  <td><Link to={`/country/${pais}`}>{pais}</Link></td>
+                </tr>
+                <tr>
+                  <th>Estado</th>
+                  <td>{estado}</td>
+                </tr>
+                <tr>
+                  <th>Município</th>
+                  <td>{municipio}</td>
+                </tr>
+                <tr>
+                  <th>Latitude</th>
+                  <td>{latitude}</td>
+                </tr>
+                <tr>
+                  <th>Longitude</th>
+                  <td>{longitude}</td>
+                </tr>
+                <tr>
+                  <th>Notificado em</th>
+                  <td>{moment(data_hora_gmt).format('LLLL')}</td>
+                </tr>
+                <tr>
+                  <th>Satélite</th>
+                  <td>{satelite}</td>
+                </tr>
+              </table>
+            </div>
+          );
+        };
+        return (
+          <>
+            <AdditionalInfoTable />
+            <Dialog />
+          </>
+        );
+      }
+
+      export default Notification;
+    ```
+
+5. Atualizar o routers no App.jsx
+
+    ```jsx
+
+      import "./App.css";
+      import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+      import MapPage from "./pages/MapPage";
+      import AboutPage from "./pages/AboutPage";
+      import Navigation from "./components/Navigation";
+      import CountryPage from "./pages/CountryPage";
+
+
+      function App() {
+        return (
+          <Router>
+            <div className="h-screen app">
+              <Navigation />
+              <main>
+                <Routes>
+                  <Route exact path="/" element={<MapPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/country/:country" element={<CountryPage />} />
+                </Routes>
+              </main>
+            </div>
+          </Router>
+        );
+      }
+
+      export default App;
+    ```
+
+3. Preparando para o Deploy: npm run build

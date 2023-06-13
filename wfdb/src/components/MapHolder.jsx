@@ -15,7 +15,7 @@ function MapHolder({ geoJson, zoom, center, onBoundsChanged }) {
   }, [geoJson]);
   return (
     <>
-      <Notification geoJson={geoJson} additionalInfo={additionalInfo} />
+      <Notification totalWildefireReported={geoJson?.features.length} additionalInfo={additionalInfo} />
       <Map center={center} zoom={zoom} onBoundsChanged={onBoundsChanged}>
         <GeoJson
           data={geoJson}
